@@ -7,19 +7,36 @@ import Card from "./component/card";
 import FilterNav from "./component/filter";
 
 function App() {
+  // this the referenece on the last div which will be used in infinite scroll
   const myDivRef = useRef(null);
+  // to get values from redux or use default values
+  let filter = useSelector((state) => state.filterset.filterState) || {
+    filtername: "",
+    filterexp: "",
+    filterloc: "",
+    filtersal: "",
+    filterrole: "",
+    filteremp: "",
+  };
 
+  // to store all the values present in the API
   let [allcontent, setallcontent] = useState({
     jdList: [],
     totalCount: 0,
   });
+  // will be used to store desired results
   let [allcontentfilter, setallcontentfilter] = useState([]);
+  // bdy to set the limit and offset for the API
   let [body, setbody] = useState({
     limit: 20,
     offset: 0,
   });
+  // used to whether call he api or not
   let [fetching, setfetching] = useState(false);
 
+  // on change of filter, render will start, first will takes all values
+  // available after that will check for each case upon checking will
+  // keep of applying .filter to res list and get the deired results
   useEffect(() => {
     let res = [];
     res = allcontent.jdList.filter((data) => {
@@ -138,6 +155,7 @@ function App() {
     });
   };
 
+  // fetch api call and logic to show only not null values
   useEffect(() => {
     if (fetching) {
       console.log("reached");
@@ -164,6 +182,7 @@ function App() {
             }),
           ];
           console.log(filter);
+          // filter case is similar as explained above
           if (filter.filterexp !== "") {
             switch (filter.filterexp) {
               case "<= 2": {
@@ -265,13 +284,14 @@ function App() {
     }
   }, [fetching]);
 
+  // this will work whenver the div is initialised and is scroll is reached to it for infinite scroll
   useEffect(() => {
     const divElement = myDivRef.current;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          console.log("The div is currently visible.");
+          console.log("Visible");
           setfetching(true);
         }
       },
@@ -294,10 +314,12 @@ function App() {
       <FilterNav />
       <div className="container">
         {allcontentfilter.map((data, index) => {
+          // card component which will show job card
           return <Card key={index} data={data} />;
         })}
       </div>
       <div ref={myDivRef}></div>
+      {/* this below div is to to suppport the infinite scroll, because of its visibilitythe api is called */}
     </>
   );
 }

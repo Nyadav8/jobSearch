@@ -1,15 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { updateFlters } from "../redux/filters";
 export default function FilterNav() {
+  // to dispatch reducer to do desired changes
   let dispatch = useDispatch();
+  //all the filter store required will be asigned to variable filter if the value is there in
+  //   the redux store it will fill the value otherwise default values it will take
   let filter = useSelector((state) => state.filterset.filterState) || {
     filtername: "",
     filterexp: "",
     filterloc: "",
     filtersal: "",
     filterrole: "",
-    filterpay: "",
+    filteremp: "",
   };
+
+  //   this function is used to set values in the filter according to filter type
 
   let handleChange = (name) => (event) => {
     console.log(name, event);
@@ -31,6 +36,7 @@ export default function FilterNav() {
       <div className="content-around">
         <select
           onChange={handleChange("filterrole")}
+          defaultValue={filter.filterrole}
           name=""
           id=""
           className="selection-box"
@@ -45,6 +51,7 @@ export default function FilterNav() {
 
         <select
           onChange={handleChange("filterloc")}
+          defaultValue={filter.filterloc}
           name=""
           id=""
           className="selection-box"
@@ -59,6 +66,7 @@ export default function FilterNav() {
 
         <select
           onChange={handleChange("filterexp")}
+          defaultValue={filter.filterexp}
           name=""
           id=""
           style={{ width: "11rem" }}
@@ -72,6 +80,7 @@ export default function FilterNav() {
         </select>
         <select
           onChange={handleChange("filtersal")}
+          defaultValue={filter.filtersal}
           style={{ width: "11rem" }}
           name=""
           id=""
@@ -87,6 +96,7 @@ export default function FilterNav() {
           placeholder="Search by company"
           onChange={handleChange("filtername")}
           name=""
+          defaultValue={filter.filtername}
           id=""
           className="selection-box"
         />
