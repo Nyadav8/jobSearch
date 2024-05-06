@@ -1,6 +1,6 @@
 # jobSearch
-Simple UI to show jobs cards, with search and filter functionality and infinite scroll
-(Design according o the image provided in the doc)
+Simple UI to show jobs cards, with search and filter functionality and infinite scroll<br/>
+(Design according to the image provided in the doc)
 <br/>
 <b>NOTE:</b> For mobile width below 500, the filters will be hidden, a button with magnifying glass will be there on clicking it will open filter and close filter
 <br/>
