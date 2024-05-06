@@ -294,7 +294,7 @@ function App() {
           console.log("Visible");
           setfetching(true);
           window.scrollTo({
-            top: window.scrollY - 1000,
+            top: window.scrollY - 100,
           });
         }
       },
