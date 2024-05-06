@@ -32,7 +32,7 @@ function App() {
     offset: 0,
   });
   // used to whether call he api or not
-  let [fetching, setfetching] = useState(false);
+  let [fetching, setfetching] = useState(true);
 
   // on change of filter, render will start, first will takes all values
   // available after that will check for each case upon checking will
