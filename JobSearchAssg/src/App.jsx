@@ -1,18 +1,20 @@
 import { useEffect, useState, useRef } from "react";
 
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import { updateFlters } from "./redux/filters";
 
 function App() {
   const myDivRef = useRef(null);
-  let [filter, setfilter] = useState({
+  let dispatch = useDispatch();
+  let filter = useSelector((state) => state.filterset.filterState) || {
     filtername: "",
     filterexp: "",
     filterloc: "",
     filtersal: "",
     filterrole: "",
     filterpay: "",
-  });
+  };
 
   let [showbtn, setshowbtn] = useState(true);
   let [allcontent, setallcontent] = useState({
@@ -29,11 +31,16 @@ function App() {
 
   let handleChange = (name) => (event) => {
     console.log(name, event);
-    setfilter({
-      ...filter,
-      [name]: event.target.value,
-    });
-
+    // setfilter({
+    //   ...filter,
+    //   [name]: event.target.value,
+    // });
+    dispatch(
+      updateFlters({
+        ...filter,
+        [name]: event.target.value,
+      })
+    );
     window.scrollTo(0, 0);
   };
 
