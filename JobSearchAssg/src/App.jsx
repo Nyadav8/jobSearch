@@ -284,7 +284,7 @@ function App() {
           }
           setallcontentfilter(res);
         }
-        setfetching(false);
+        setfetching((prev) => !prev);
       });
     }
   }, [fetching]);
