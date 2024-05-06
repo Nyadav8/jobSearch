@@ -133,10 +133,24 @@
   margin-top: 5px;
 }
 
+.textNoData {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
+}
+.container2 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 100vh;
+  align-items: center;
   justify-content: center;
 }
 
@@ -165,4 +179,16 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: rgb(113, 113, 113);
+}
+
+.subtitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgb(113, 113, 113);
 }

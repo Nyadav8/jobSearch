@@ -293,6 +293,9 @@ function App() {
         if (entry.isIntersecting) {
           console.log("Visible");
           setfetching(true);
+          window.scrollTo({
+            top: window.scrollY - 1000,
+          });
         }
       },
       { threshold: 0.5 }
@@ -313,10 +316,21 @@ function App() {
     <>
       <FilterNav />
       <div className="container">
-        {allcontentfilter.map((data, index) => {
-          // card component which will show job card
-          return <Card key={index} data={data} />;
-        })}
+        {allcontentfilter.length > 0 ? (
+          allcontentfilter.map((data, index) => {
+            // card component which will show job card
+            return <Card key={index} data={data} />;
+          })
+        ) : (
+          <div className="container2">
+            <div className="textNoData">
+              <span className="title">Sorry! No jobs found</span>
+              <span className="subtitle">
+                Please change the filter to look for jobs
+              </span>
+            </div>
+          </div>
+        )}
       </div>
       <div ref={myDivRef}></div>
       {/* this below div is to to suppport the infinite scroll, because of its visibilitythe api is called */}
