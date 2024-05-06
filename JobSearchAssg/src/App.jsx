@@ -160,127 +160,135 @@ function App() {
     if (fetching) {
       console.log("reached");
 
-      postApi().then((response) => {
-        console.log(response);
-        if (response.jdList) {
-          setallcontent({
-            jdList: [...allcontent.jdList, ...response.jdList],
-            totalCount: response.totalCount,
-          });
-          setbody({
-            limit: 20,
-            offset: ++body.offset,
-          });
+      try {
+        postApi()
+          .then((response) => {
+            console.log(response);
+            if (response.jdList) {
+              setallcontent({
+                jdList: [...allcontent.jdList, ...response.jdList],
+                totalCount: response.totalCount,
+              });
+              setbody({
+                limit: 20,
+                offset: ++body.offset,
+              });
 
-          console.log(allcontentfilter);
-          let res = [
-            ...allcontentfilter,
-            ...response.jdList.filter((d) => {
-              if (d != null) {
-                return d;
+              console.log(allcontentfilter);
+              let res = [
+                ...allcontentfilter,
+                ...response.jdList.filter((d) => {
+                  if (d != null) {
+                    return d;
+                  }
+                }),
+              ];
+              console.log(filter);
+              // filter case is similar as explained above
+              if (filter.filterexp !== "") {
+                switch (filter.filterexp) {
+                  case "<= 2": {
+                    res = res.filter((data) => {
+                      if (data.minExp <= 2) {
+                        return data;
+                      }
+                    });
+                    console.log(res);
+                    break;
+                  }
+                  case "<= 5": {
+                    res = res.filter((data) => {
+                      if (data.minExp != null && data.minExp <= 5) {
+                        return data;
+                      }
+                    });
+                    console.log(res);
+                    break;
+                  }
+                  case "<= 10": {
+                    res = res.filter((data) => {
+                      if (data.minExp <= 10) {
+                        return data;
+                      }
+                    });
+                    console.log(res);
+                    break;
+                  }
+                  case ">10": {
+                    res = res.filter((data) => {
+                      if (data.minExp > 10) {
+                        return data;
+                      }
+                    });
+                    console.log(res);
+                    break;
+                  }
+                }
               }
-            }),
-          ];
-          console.log(filter);
-          // filter case is similar as explained above
-          if (filter.filterexp !== "") {
-            switch (filter.filterexp) {
-              case "<= 2": {
+              if (filter.filtername !== "") {
                 res = res.filter((data) => {
-                  if (data.minExp <= 2) {
+                  if (
+                    data.companyName
+                      .toLowerCase()
+                      .includes(filter.filtername.toLowerCase())
+                  )
+                    return data;
+                });
+              }
+              if (filter.filterloc !== "") {
+                res = res.filter((data) => {
+                  if (data.location.includes(filter.filterloc)) {
                     return data;
                   }
                 });
-                console.log(res);
-                break;
               }
-              case "<= 5": {
+              if (filter.filtersal !== "") {
+                console.log("reached");
+                switch (filter.filtersal) {
+                  case "<=10": {
+                    res = res.filter((data) => {
+                      if (data.minJdSalary <= 10) {
+                        return data;
+                      }
+                    });
+                    console.log(res);
+                    break;
+                  }
+                  case "<=20": {
+                    res = res.filter((data) => {
+                      if (data.minJdSalary <= 20) {
+                        return data;
+                      }
+                    });
+                    break;
+                  }
+                  case ">20": {
+                    res = res.filter((data) => {
+                      if (data.minJdSalary > 20) {
+                        return data;
+                      }
+                    });
+                    break;
+                  }
+                }
+              }
+              if (filter.filterrole !== "") {
                 res = res.filter((data) => {
-                  if (data.minExp != null && data.minExp <= 5) {
+                  if (data.jobRole.includes(filter.filterrole)) {
                     return data;
                   }
                 });
-                console.log(res);
-                break;
               }
-              case "<= 10": {
-                res = res.filter((data) => {
-                  if (data.minExp <= 10) {
-                    return data;
-                  }
-                });
-                console.log(res);
-                break;
-              }
-              case ">10": {
-                res = res.filter((data) => {
-                  if (data.minExp > 10) {
-                    return data;
-                  }
-                });
-                console.log(res);
-                break;
-              }
+              setallcontentfilter(res);
             }
-          }
-          if (filter.filtername !== "") {
-            res = res.filter((data) => {
-              if (
-                data.companyName
-                  .toLowerCase()
-                  .includes(filter.filtername.toLowerCase())
-              )
-                return data;
-            });
-          }
-          if (filter.filterloc !== "") {
-            res = res.filter((data) => {
-              if (data.location.includes(filter.filterloc)) {
-                return data;
-              }
-            });
-          }
-          if (filter.filtersal !== "") {
-            console.log("reached");
-            switch (filter.filtersal) {
-              case "<=10": {
-                res = res.filter((data) => {
-                  if (data.minJdSalary <= 10) {
-                    return data;
-                  }
-                });
-                console.log(res);
-                break;
-              }
-              case "<=20": {
-                res = res.filter((data) => {
-                  if (data.minJdSalary <= 20) {
-                    return data;
-                  }
-                });
-                break;
-              }
-              case ">20": {
-                res = res.filter((data) => {
-                  if (data.minJdSalary > 20) {
-                    return data;
-                  }
-                });
-                break;
-              }
-            }
-          }
-          if (filter.filterrole !== "") {
-            res = res.filter((data) => {
-              if (data.jobRole.includes(filter.filterrole)) {
-                return data;
-              }
-            });
-          }
-          setallcontentfilter(res);
-        }
-        setfetching((prev) => !prev);
-      });
+            setfetching((prev) => !prev);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      } catch (err) {
+        console.error(err);
+      }
     }
   }, [fetching]);
 
