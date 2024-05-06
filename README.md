@@ -7,6 +7,7 @@ Simple UI to show jobs cards, with search and filter functionality and infinite 
 Made using vite and React
 <br/>
 <b>Steps to start the process:</b>
+<br/>Upon cloning, do cd ./jobSearch
 <br/>
 after cloning, cd ./JobSearchAssg (get to the JobSearchAssg) 
 <br/>
